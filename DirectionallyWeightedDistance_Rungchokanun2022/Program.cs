@@ -28,8 +28,8 @@ namespace DirectionallyWeightedDistance_Rungchokanun2022
         {
             //exampleSelectMinutiaeUnderPose();
             //exampleMinutiaeTripletsFormation();
-            //exampleJYMatching();
-            //exampleM3glMatching();
+            //exampleJYMatching(); not used
+            exampleM3glMatching(); 
             //exampleLAS();
             //exampleComplexFilter();
             //exampleOrientationField();
@@ -37,11 +37,14 @@ namespace DirectionallyWeightedDistance_Rungchokanun2022
 
         public static void exampleMinutiaeTripletsFormation()
         {
-            string FPImagePath = @"E:\Research\FVC2004_Db1FingerNet";//fingerprint image path
-            string searchFPImagPattern = "*.bmp";//fingerprint image file extension
-            string minutiaePath = FPImagePath + @"\FingerNet\Minutiae\"; // *.mnt files from FingerNet
-            string ofPath = FPImagePath + @"\FingerNet\OF\"; // *.txt files which generated from FingerNetOFMatToText.m
-            string fpSegmentPath = FPImagePath + @"\FingerNet\Segment\"; // *.png files from FingerNet
+            string FPImagePath = @"D:\OneDrive\workspace\KSIP\99_SourceCode\FingerNetCodeOcean\results\NIST_SD27_PredictiveMagnitudeFilter";//fingerprint image path
+            //FPImagePath = @"H:\Workspace\KSIP\02_Database\00_ORIGINAL\NIST_SD14\F0000000_F0010000_Result";
+            FPImagePath = @"H:\Workspace\KSIP\02_Database\00_ORIGINAL\NIST_SD14\F0020001_F0027000_Result";
+            //FPImagePath = @"D:\OneDrive\workspace\KSIP\02_Database\02_TEMPLATE\M3gl\NIST_SD27\NIST_SD27_Exemplar";
+            string searchFPImagPattern = "*.png";//fingerprint image file extension
+            string minutiaePath = FPImagePath + @"\Minutiae\FingerNet\"; // *.mnt files from FingerNet
+            string ofPath = FPImagePath + @"\OF\TXT\"; // *.txt files which generated from FingerNetOFMatToText.m
+            string fpSegmentPath = FPImagePath + @"\Segment\"; // *.png files from FingerNet
 
             string saveMTPath;//output path for minutiae-triplets text file and each file contains minutiae's id
             int Kneighbor;//number of neighbors to be selected to form minutiae-triplets
@@ -108,7 +111,8 @@ namespace DirectionallyWeightedDistance_Rungchokanun2022
             //MinutiaeTripletsFormation(FPImagePath, searchFPImagPattern, minutiaePath, ofPath, fpSegmentPath, Kneighbor, mode, arrangeCWandremoveDuplicate, saveMTPath);
 
             //uncomment to form minutiae-triplets using ridge flow directionally weighted distance 4-nearest neighbor selection method for M3gl c=4 matching algorithm
-            saveMTPath = FPImagePath + @"\FingerNet\Minutiae\RidgeFlowDirectionalWeightedNearestNeighbor_2ndMethodM3glC4_34bw\";
+            
+            saveMTPath = FPImagePath + @"\Minutiae\RidgeFlowDirectionalWeightedNearestNeighbor_2ndMethodM3glC4_34bw\";
             Kneighbor = 4;
             mode = 4;
             arrangeCWandremoveDuplicate = true;
@@ -161,16 +165,43 @@ namespace DirectionallyWeightedDistance_Rungchokanun2022
         public static void exampleM3glMatching()
         {
             string DbConsole = "FVC2004_Db1";
+            //string DbConsole = "FVC2004_Db1";
             string FPImagePath = @"E:\Research\FVC2004_Db1FingerNet";//fingerprint image path
             string fpImgExtension = ".bmp";//fingerprint image file extension
             string minutiaePath = FPImagePath + @"\FingerNet\Minutiae\"; // *.mnt files from FingerNet
             string minutiaeTripletsPath = FPImagePath + @"\FingerNet\Minutiae\ConventionalNNMethodM3glC2\"; // minutiae-triplets *.txt files from MinutiaeTripletsFormation()
             string saveResultPath = FPImagePath + @"\FingerNet\ResultToGitHub\"; //output path to store matching results
             string saveResultFilename = "M3glFNMR_onConventionalNNMethodM3glC2"; //matching results filename which is saved as .txt
-            int numOfImagePerFinger = 8;
+            int numOfImagePerFinger = 1;
             //M3gl
             Console.WriteLine("Running M3gl on " + DbConsole);
-            matchM3glFNMR(minutiaePath, minutiaeTripletsPath, FPImagePath, fpImgExtension, saveResultPath, saveResultFilename, numOfImagePerFinger, false);
+            //matchM3glFNMR(minutiaePath, minutiaeTripletsPath, FPImagePath, fpImgExtension, saveResultPath, saveResultFilename, numOfImagePerFinger, false);
+
+            string pMinutiaePath = @"D:\OneDrive\workspace\KSIP\02_Database\02_TEMPLATE\M3gl\NIST_SD27\NIST_SD27_PredictiveMagnitudeFilter\Minutiae\FingerNet";
+            string pMinutiaeTripletsPath = @"D:\OneDrive\workspace\KSIP\02_Database\02_TEMPLATE\M3gl\NIST_SD27\NIST_SD27_PredictiveMagnitudeFilter\Minutiae\RidgeFlowDirectionalWeightedNearestNeighbor_2ndMethodM3glC4_34bw";
+
+            string gMinutiaePath = @"D:\OneDrive\workspace\KSIP\02_Database\02_TEMPLATE\M3gl\NIST_SD27\NIST_SD27_Exemplar\Minutiae\FingerNet";
+            string gMinutiaeTripletsPath = @"D:\OneDrive\workspace\KSIP\02_Database\02_TEMPLATE\M3gl\NIST_SD27\NIST_SD27_Exemplar\Minutiae\RidgeFlowDirectionalWeightedNearestNeighbor_2ndMethodM3glC4_34bw";
+
+            string bgMinutiaePath = @"D:\OneDrive\workspace\KSIP\02_Database\02_TEMPLATE\M3gl\NIST_SD14\Minutiae\FingerNet";
+            string bgMinutiaeTripletsPath = @"D:\OneDrive\workspace\KSIP\02_Database\02_TEMPLATE\M3gl\NIST_SD14\Minutiae\RidgeFlowDirectionalWeightedNearestNeighbor_2ndMethodM3glC4_34bw";
+            
+            saveResultPath = @"D:\OneDrive\workspace\KSIP\07_IDENTIFICATION\M3gl_WeightedDistance\NIST_SD27\NIST_SD27_PredictiveMagnitudeFilter";
+
+
+            if (!Directory.Exists(saveResultPath))
+            {
+                var di = Directory.CreateDirectory(saveResultPath);
+                Console.WriteLine("Create Output Directory. " + di.FullName);
+
+            }
+
+            matchM3glCMC(pMinutiaePath, pMinutiaeTripletsPath,
+                    gMinutiaePath, gMinutiaeTripletsPath,
+                    bgMinutiaePath, bgMinutiaeTripletsPath,
+                FPImagePath, fpImgExtension, saveResultPath, saveResultFilename, numOfImagePerFinger, false);
+
+            /*
             saveResultFilename = "M3glFMR_onConventionalNNMethodM3glC2";
             matchM3glFMR(minutiaePath, minutiaeTripletsPath, FPImagePath, fpImgExtension, saveResultPath, saveResultFilename, false);
 
@@ -185,13 +216,13 @@ namespace DirectionallyWeightedDistance_Rungchokanun2022
             matchM3glFNMR(minutiaePath, minutiaeTripletsPath, FPImagePath, fpImgExtension, saveResultPath, saveResultFilename, numOfImagePerFinger, false);
             saveResultFilename = "M3glFMR_on2ndMethodC2";
             matchM3glFMR(minutiaePath, minutiaeTripletsPath, FPImagePath, fpImgExtension, saveResultPath, saveResultFilename, false);
-
+            */
         }
 
         public static void exampleLAS()
         {
             LAS_Liu2006 las = new LAS_Liu2006();
-            las.runLAS(@"E:\Research\FVC2000_Db2\1_1.tif", @"‪E:\Research\FVC2000_Db2\LAS");
+            las.runLAS(@"E:\Research\FVC2000_Db2\1_1.tif", @"E:\Research\FVC2000_Db2\LAS");
         }
 
         public static void exampleComplexFilter()
@@ -273,19 +304,29 @@ namespace DirectionallyWeightedDistance_Rungchokanun2022
         public static void MinutiaeTripletsFormation(string fpImgPath, string searchFPImagPattern, string minutiaePath, string ofPath, string fpSegmentPath,
                                         int Kneighbor, int mode, bool arrangeCWandremoveDuplicate, string saveMTPath)
         {
-            var vFPFileNames = new DirectoryInfo(fpImgPath).GetFileSystemInfos(searchFPImagPattern).OrderBy(fs => fs.Name, new NaturalStringComparer()).Select(x => x.FullName);
+            Console.WriteLine("Minutiae Triplets Formation");
+
+
+            var vFPFileNames = new DirectoryInfo(fpImgPath + @"\Enh\").GetFileSystemInfos(searchFPImagPattern).OrderBy(fs => fs.Name, new NaturalStringComparer()).Select(x => x.FullName);
 
             string[] fpFileNames = vFPFileNames.ToArray();
-
             double D = 84.0;
             double Theta = Math.PI / 2.0;
             double L = 84.0;
 
             int ofBlockSize = 8;
 
+            Console.WriteLine("Length: " + fpFileNames.Length.ToString() + "\nEnter to continue");
+            Console.ReadKey();
+
             for (int f = 0; f < fpFileNames.Length; f++)
             {
                 string fname = Path.GetFileNameWithoutExtension(fpFileNames[f]);
+                string outPath = saveMTPath + fname + ".txt";
+
+                if (File.Exists(outPath)){
+                    continue;
+                }
 
                 Image<Bgr, Single> inputBgr = new Image<Bgr, Single>(fpFileNames[f]);
 
@@ -387,7 +428,7 @@ namespace DirectionallyWeightedDistance_Rungchokanun2022
                     default: break;
                 }
 
-                saveMTripletsToText(listMTriplets, saveMTPath + fname + ".txt");
+                saveMTripletsToText(listMTriplets, outPath);
 
                 listMTriplets.Clear();
                 listMTriplets.TrimExcess();
@@ -2752,7 +2793,169 @@ namespace DirectionallyWeightedDistance_Rungchokanun2022
             finalScoreTable.Clear();
             finalScoreTable = null;
         }
+        public static void matchM3glCMC(string minutiaeProbeDir, string minutiaeTripletsProbeDir,
+                                        string minutiaeGalleryDir, string minutiaeTripletsGalleryDir,
+                                        string minutiaeBgDir, string minutiaeTripletsBgDir,
+                                        string fpImgPath, string fpImgExtension, string saveResultPath, string saveFilename,
+                                        int numOfSamplePerFinger = 8, bool saveImgResult = false)
+        {
+            Console.WriteLine("Matching M3gl");
+            //var vAllFileNames = new DirectoryInfo(minutiaePath).GetFileSystemInfos("*.mnt").OrderBy(fs => fs.Name, new NaturalStringComparer()).Select(x => x.FullName);
+            string[] filters = { ".mnt", ".txt" };
 
+            List<string> minutiaeProbePathList = Utilities.GetFilePath(minutiaeProbeDir, filters);
+            List<string> minutiaeGalleryPathList = Utilities.GetFilePath(minutiaeGalleryDir, filters);
+            List<string> minutiaeBgPathList = Utilities.GetFilePath(minutiaeBgDir, filters);
+
+            minutiaeGalleryPathList = minutiaeGalleryPathList.Concat(minutiaeBgPathList).ToList();
+
+            List<string> minutiaeTripletsProbePathList = Utilities.GetFilePath(minutiaeTripletsProbeDir, filters);
+            List<string> minutiaeTripletsGalleryPathList = Utilities.GetFilePath(minutiaeTripletsGalleryDir, filters);
+            List<string> minutiaeTripletsBgPathList = Utilities.GetFilePath(minutiaeTripletsBgDir, filters);
+
+            minutiaeTripletsGalleryPathList = minutiaeTripletsGalleryPathList.Concat(minutiaeTripletsBgPathList).ToList();
+
+            int probeLength = minutiaeProbePathList.Count;
+            int galleryLength = minutiaeGalleryPathList.Count;
+
+            Stopwatch stopwatch = new Stopwatch();
+            TimeSpan totalElapsed = new TimeSpan();
+            Stopwatch OneFingerStopwatch = new Stopwatch();
+
+
+            M3gl_Perez2012 m3gl = new M3gl_Perez2012();
+            List<MCCMatchResult> mccResult = new List<MCCMatchResult>();
+
+            //for (int i_p = 0; i_p < 1; i_p++)
+
+                for (int i_p = 0; i_p < probeLength; i_p++)
+            {
+                string minutiaeTripletsProbePath = minutiaeTripletsProbePathList[i_p];
+                string minutiaeProbePath = minutiaeProbePathList[i_p];
+
+                Console.WriteLine("Probe: " + minutiaeTripletsProbePath);
+
+                OneFingerStopwatch.Restart();
+                //string probeMinutiaesTripletPath = Path.GetDirectoryName(minutiaeTripletsProbePath);
+                // not use string mTripletPath = Path.GetDirectoryName(allFileNames[g]);
+                string probeName = Path.GetFileNameWithoutExtension(minutiaeProbePath);
+
+                KMinutia[] KMinutiaProbe = readFingerNetMinutiae(minutiaeProbePath);
+                KMinutia[] allKMinutiaProbe = (KMinutia[])KMinutiaProbe.Clone();
+                List<mTriplet> tripletsMinutiaProbe = readMinutiaeTripletsFromTextFile(ref KMinutiaProbe, minutiaeTripletsProbePath);
+
+                //for (int i_g = 0; i_g < 300; i_g++)
+                Dictionary<string, MatchResult> finalScoreTable = new Dictionary<string, MatchResult>();
+                
+                for (int i_g = 0; i_g < galleryLength; i_g++)
+
+                //for (int q = g + 2700; q < (g + 2700 + numOfSamplePerFinger - 1); q++)//NIST14
+                {
+                    double score = 0;
+                    string minutiaeTripletsGalleryPath = minutiaeTripletsGalleryPathList[i_g];
+                    string minutiaeGalleryPath = minutiaeGalleryPathList[i_g];
+
+                    //Console.WriteLine("Gallery: " + minutiaeTripletsGalleryPath);
+
+                    string galleryName = Path.GetFileNameWithoutExtension(minutiaeGalleryPath);
+
+                    KMinutia[] KMinutiaGallery = readFingerNetMinutiae(minutiaeGalleryPath);
+                    KMinutia[] allKMinutiaGallery = (KMinutia[])KMinutiaGallery.Clone();
+                    List<mTriplet> tripletsMinutiaGallery = readMinutiaeTripletsFromTextFile(ref KMinutiaGallery, minutiaeTripletsGalleryPath);
+
+                    List<int[]> MatchedPair = new List<int[]>();
+                    stopwatch.Restart();
+
+                    if (tripletsMinutiaGallery.Count > 0 && tripletsMinutiaProbe.Count > 0)
+                    {
+                        score = m3gl.matchMinutiaeTriplets(KMinutiaProbe, KMinutiaGallery, tripletsMinutiaProbe, tripletsMinutiaGallery, ref MatchedPair);
+                    }
+                    stopwatch.Stop();
+
+                    totalElapsed = totalElapsed.Add(stopwatch.Elapsed);
+
+                    MatchResult mr = new MatchResult();
+                    mr.galleryName = galleryName;
+                    mr.score = score;
+                    mr.numOfMatch = MatchedPair.Count;
+                    mr.elapsed = stopwatch.Elapsed;
+                    mr.totalMilliseconds = stopwatch.Elapsed.TotalMilliseconds;
+                    mr.ticks = stopwatch.Elapsed.Ticks;
+                    //finalScoreTable.Add(probeName + "VS" + galleryName, mr);
+                    finalScoreTable.Add(galleryName, mr);
+
+                    #region plot matched minutiae
+                    if (saveImgResult)
+                    {
+                        Image<Bgr, Single> galleryFPImage = new Image<Bgr, Single>(fpImgPath + "\\" + probeName + fpImgExtension);
+                        Image<Bgr, Single> queryFPImage = new Image<Bgr, Single>(fpImgPath + "\\" + galleryName + fpImgExtension);
+                        Image<Bgr, Single> MatchedImage = plotMSTMatchedMinutiaeM3gl(galleryFPImage, queryFPImage, allKMinutiaProbe, allKMinutiaGallery, MatchedPair);
+
+                        if (!Directory.Exists(saveResultPath + saveFilename))
+                        {
+                            Directory.CreateDirectory(saveResultPath + saveFilename);
+                        }
+
+                        MatchedImage.Save(saveResultPath + saveFilename + "\\" + probeName + "VS" + galleryName + "_" + MatchedPair.Count + ".png");
+                        galleryFPImage.Dispose();
+                        queryFPImage.Dispose();
+                        MatchedImage.Dispose();
+                    }
+                    #endregion
+
+                    MatchedPair.Clear();
+                    MatchedPair.TrimExcess();
+                    MatchedPair = null;
+
+                    tripletsMinutiaGallery.Clear();
+                    tripletsMinutiaGallery.TrimExcess();
+                    tripletsMinutiaGallery = null;
+                }
+
+                OneFingerStopwatch.Stop();
+                Console.WriteLine(probeName + " has been matched against the remaining ones of the same finger. Time elapsed: {0}", OneFingerStopwatch.Elapsed);
+
+                tripletsMinutiaProbe.Clear();
+                tripletsMinutiaProbe.TrimExcess();
+                tripletsMinutiaProbe = null;
+
+
+                saveFilename = saveFilename + ".txt";
+
+                //int r = 0;
+                ///foreach (KeyValuePair<string, MatchResult> kv in finalScoreTable)
+                //{
+                //  writer.WriteLine("{0}\t{1}\t{2:R}\t{3}\t{4}\t{5}\t{6}", kv.Key, r += 1, kv.Value.score, kv.Value.numOfMatch, kv.Value.elapsed, kv.Value.totalMilliseconds, kv.Value.ticks);
+                //}
+                finalScoreTable = finalScoreTable.OrderByDescending(u => u.Value.score).ToDictionary(z => z.Key, y => y.Value);
+                string probeQuery = probeName.Substring(0, 3);
+                int rank = finalScoreTable.Keys.ToList().IndexOf(probeQuery) + 1;
+                Console.WriteLine("ProbeName: " + probeName + " Gallery: " + finalScoreTable[probeQuery].galleryName + " Rank: " + rank.ToString());
+                //writer.WriteLine("Total time elapsed: {0}", totalElapsed);
+                //writer.WriteLine("Total time elapsed (Milliseconds): {0}", totalElapsed.TotalMilliseconds);
+                //writer.WriteLine("Total time elapsed (Ticks): {0}", totalElapsed.Ticks);
+                //writer.WriteLine("Average time elapsed: {0}", new TimeSpan(totalElapsed.Ticks / totalNumberOfComparison));
+                //writer.WriteLine("Average time elapsed (Milliseconds): {0}", new TimeSpan(totalElapsed.Ticks / totalNumberOfComparison).TotalMilliseconds);
+                MCCMatchResult tmp = new MCCMatchResult();
+                tmp.probe = probeName;
+                tmp.gallery = finalScoreTable[probeQuery].galleryName;
+                tmp.rank = rank;
+                tmp.score = finalScoreTable[probeQuery].score;
+                mccResult.Add(tmp);
+
+
+                finalScoreTable.Clear();
+                finalScoreTable = null;
+            }
+            using (var writer = new StreamWriter(Path.Combine(saveResultPath, saveFilename)))
+            {
+                writer.WriteLine("Probe,Gallery,Rank,Score");
+                foreach (MCCMatchResult res in mccResult)
+                {
+                    writer.WriteLine(res.probe + "," + res.gallery + "," + res.rank + "," + res.score);
+                }
+            }
+        }
         public static void matchM3glFNMR(string minutiaePath, string minutiaeTripletsPath, string fpImgPath, string fpImgExtension, string saveResultPath, string saveFilename, int numOfSamplePerFinger = 8, bool saveImgResult = false)
         {
             var vAllFileNames = new DirectoryInfo(minutiaePath).GetFileSystemInfos("*.mnt").OrderBy(fs => fs.Name, new NaturalStringComparer()).Select(x => x.FullName);
@@ -3546,14 +3749,25 @@ namespace DirectionallyWeightedDistance_Rungchokanun2022
     public class MatchResult
     {
         public string ID;
+        public string galleryName;
         public int rank;
         public double score;
         public int numOfMatch;
+
 
         public TimeSpan elapsed;
         public double totalMilliseconds;
         public long ticks;
     }
+
+    public class MCCMatchResult
+    {
+        public string probe;
+        public string gallery;
+        public int rank;
+        public double score;
+    }
+
 
     public class MatchMinutiaeCluster
     {
